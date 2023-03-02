@@ -38,7 +38,6 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
 
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -57,12 +56,11 @@
             android:id="@+id/BtnGetById"
             android:text="Søg efter person-ID"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/TxtTest"
-            android:textSize="15dp"
-            android:text="Her står teksten!"/>
+            android:id="@+id/TxtInput"
+            android:textSize="15dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +68,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="..."
+            android:text=""
             android:id="@+id/TxtOutput"/>
     </LinearLayout>
 

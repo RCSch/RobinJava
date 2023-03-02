@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.sql.ResultSet;
@@ -15,17 +19,32 @@ import java.sql.PreparedStatement;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView OutputTxt;
+    EditText InputTxt;
+    Button BtnToCreate;
+    Button BtnGetAll;
+    Button BtnGetById;
+    Spinner NationalitySpinner;
+
     private static final String TAG = "MainActivity";
     private Connection connection = DatabaseConnection.getConnection();
     // Connection
-
-    TextView OutputTxt = (TextView) findViewById(R.id.TxtOutput); //Skal bruges til output når vi søger efter specifikke personer
-    //Skal have lavet en input også, til at søge med.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        InputTxt = (EditText) findViewById(R.id.TxtInput);
+        OutputTxt = (TextView) findViewById(R.id.TxtOutput);
+        BtnToCreate = (Button) findViewById(R.id.BtnToCreate);
+        BtnGetAll = (Button) findViewById(R.id.BtnGetAll);
+        BtnGetById = (Button) findViewById(R.id.BtnGetById);
+        NationalitySpinner = (Spinner) findViewById(R.id.nationalitySpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.spinner_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        NationalitySpinner.setAdapter(adapter);
 
         new ConnectToDatabaseTask().execute();
     }
@@ -48,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // CREATE
                 try {
-                    String sql = "INSERT INTO Personer (Navn, Adresse, column3) VALUES (?, ?, ?)";
+                    String sql = "INSERT INTO Personer (Navn, Adresse, Nationalitet, Favourite, Tlf, Interesse1, Interesse2, Interesse3) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement statement = connection.prepareStatement(sql);
                     statement.setString(1, "value1");
                     statement.setString(2, "value2");
@@ -56,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
                         Log.d(TAG, "En ny person er oprettet!");
+                    }
+                    else {
+                        Log.d(TAG, "Ingen person oprettet!");
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
