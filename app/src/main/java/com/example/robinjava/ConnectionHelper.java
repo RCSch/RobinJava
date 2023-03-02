@@ -5,6 +5,8 @@ import static android.os.StrictMode.*;
 import android.os.StrictMode;
 import android.util.Log;
 
+/////////// DENNE HER ER IKKE PÅ NUVÆRENDE TIDSPUNKT AKTUEL.
+
 import java.sql.Connection;
 
 public class ConnectionHelper {

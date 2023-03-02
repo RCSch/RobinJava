@@ -4,7 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.robinjava'
-    compileSdk 32
+    compileSdk 33
+
+    lintOptions {
+        warningsAsErrors true
+        check 'Deprecation'
+    }
 
     defaultConfig {
         applicationId "com.example.robinjava"
