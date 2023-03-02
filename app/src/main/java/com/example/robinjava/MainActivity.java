@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private Connection connection = DatabaseConnection.getConnection();
     // Connection
 
+    TextView OutputTxt = (TextView) findViewById(R.id.TxtOutput); //Skal bruges til output når vi søger efter specifikke personer
+    //Skal have lavet en input også, til at søge med.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             connection = DatabaseConnection.getConnection();
             return connection != null;
         }
+
 
         @Override
         protected void onPostExecute(Boolean success) {
@@ -57,13 +61,33 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                // READ
+                // READ - GET ALL
                 try {
                     Statement statement = connection.createStatement();
                     ResultSet resultSet = statement.executeQuery("SELECT * FROM Personer");
                     while (resultSet.next()) {
                         // Do something with each row
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                // READ - GET BY ID
+
+
+                try {
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery("SELECT * FROM Personer where PersonID = 1");
+
+                    if (resultSet.next()) {
+                        String value = resultSet.getString("Navn");
+                        Log.d(TAG, "Navn: " + value);
+                        OutputTxt.setText(value);
+                    }
+                    //while (resultSet.next())
+                    //{
+                      //  OutputTxt.setText(resultSet.getString(columnIndex ));
+                    //}
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -76,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     statement.setString(2, "value2");
                     int rowsUpdated = statement.executeUpdate();
                     if (rowsUpdated > 0) {
-                        Log.d(TAG, "The row has been updated.");
+                        Log.d(TAG, "Personen er opdateret.");
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -84,12 +108,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // DELETE
                 try {
-                    String sql = "DELETE FROM Personer WHERE column1 = ?";
+                    String sql = "DELETE FROM Personer WHERE PersonID = ?";
                     PreparedStatement statement = connection.prepareStatement(sql);
                     statement.setString(1, "value1");
                     int rowsDeleted = statement.executeUpdate();
                     if (rowsDeleted > 0) {
-                        Log.d(TAG, "The row has been deleted.");
+                        Log.d(TAG, "Personen er slettet.");
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
