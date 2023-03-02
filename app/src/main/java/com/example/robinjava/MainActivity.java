@@ -2,6 +2,8 @@ package com.example.robinjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,14 +29,19 @@ public class MainActivity extends AppCompatActivity {
     Button BtnGetById;
     Spinner NationalitySpinner;
 
+
     private static final String TAG = "MainActivity";
     private Connection connection = DatabaseConnection.getConnection();
     // Connection
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //String[] NationalityArray = {"Andalusien", "Belgien", "Congo", "Djibouti", "Equador", "Guyana"};  //Til test
 
         InputTxt = (EditText) findViewById(R.id.TxtInput);
         OutputTxt = (TextView) findViewById(R.id.TxtOutput);
@@ -41,10 +49,16 @@ public class MainActivity extends AppCompatActivity {
         BtnGetAll = (Button) findViewById(R.id.BtnGetAll);
         BtnGetById = (Button) findViewById(R.id.BtnGetById);
         NationalitySpinner = (Spinner) findViewById(R.id.nationalitySpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_options, android.R.layout.simple_spinner_item);
+
+        // Create an instance of MyDatabaseHelper and get the spinner options from the database
+        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
+        ArrayList<String> options = dbHelper.getSpinnerOptions();
+
+        // Create an ArrayAdapter using the options from the database and set it on the spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         NationalitySpinner.setAdapter(adapter);
+
 
         new ConnectToDatabaseTask().execute();
     }
@@ -141,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                // Don't forget to close the connection when you're done
+                // Til at lukke, når vi er færdige
                 try {
                     connection.close();
                 } catch (SQLException e) {
@@ -149,8 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } else {
-                // Connection failed, handle the error here
-                Log.d(TAG, "Connection failed");
+                Log.d(TAG, "Connection failed. Fy for en skefuld!");
             }
         }
     }
