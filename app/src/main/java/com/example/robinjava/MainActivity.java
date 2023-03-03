@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,11 +29,21 @@ public class MainActivity extends AppCompatActivity {
     TextView OutputTxt;
     EditText InputTxt;
     Button BtnToCreate;
+    Button BtnCreate;
     Button BtnGetAll;
     Button BtnGetById;
     Button BtnToMain;
-    Spinner NationalitySpinner;
     RecyclerView GetAllRecyclerView;
+    EditText nameInput;
+    EditText addressInput;
+    Spinner NationalitySpinner;
+    CheckBox favCheck;
+    EditText tlfInput;
+    EditText interestInput1;
+    EditText interestInput2;
+    EditText interestInput3;
+
+
 
     private static final String TAG = "MainActivity";
     private Connection connection = DatabaseConnection.getConnection();
@@ -50,25 +61,39 @@ public class MainActivity extends AppCompatActivity {
 
         OutputTxt = (TextView) findViewById(R.id.TxtOutput);
         BtnToCreate = (Button) findViewById(R.id.BtnToCreate);
+        BtnCreate = (Button) findViewById(R.id.BtnCreate);
         BtnGetAll = (Button) findViewById(R.id.BtnGetAll);
         BtnGetById = (Button) findViewById(R.id.BtnGetById);
         BtnToMain = (Button)findViewById(R.id.BtnToMain);
         NationalitySpinner = (Spinner) findViewById(R.id.nationalitySpinner);
         GetAllRecyclerView = (RecyclerView) findViewById(R.id.getAllRecyclerView);
         GetAllRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        nameInput = (EditText)findViewById(R.id.nameInput);
+        addressInput = (EditText)findViewById(R.id.addressInput);
+        //favCheck(CheckBox)findViewById(R.id.favCheck); //Skal lige fikses
+        tlfInput = (EditText)findViewById(R.id.tlfInput);
+        interestInput1 = (EditText)findViewById(R.id.interestInput1);
+        interestInput2 = (EditText)findViewById(R.id.interestInput2);
+        interestInput3 = (EditText)findViewById(R.id.interestInput3);
 
 
-        BtnToCreate.setOnClickListener(new View.OnClickListener() {
+        BtnToCreate.setOnClickListener(new View.OnClickListener() { //Bruges til at navigere fra main til create-vinduet
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_create);
             }
         });
 
-        BtnToMain.setOnClickListener(new View.OnClickListener() {
+        BtnToMain.setOnClickListener(new View.OnClickListener() { //Bruges til at navigere fra create-vinduet til main
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_main);
+            }
+        });
+        BtnCreate.setOnClickListener(new View.OnClickListener() { //Skal bruges til at oprette, og derefter sende brugeren tilbage til main
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.activity_create);
             }
         });
 
