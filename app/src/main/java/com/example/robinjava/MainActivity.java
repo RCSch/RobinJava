@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Button BtnToCreate;
     Button BtnGetAll;
     Button BtnGetById;
+    Button BtnToMain;
     Spinner NationalitySpinner;
     RecyclerView GetAllRecyclerView;
 
@@ -50,10 +52,25 @@ public class MainActivity extends AppCompatActivity {
         BtnToCreate = (Button) findViewById(R.id.BtnToCreate);
         BtnGetAll = (Button) findViewById(R.id.BtnGetAll);
         BtnGetById = (Button) findViewById(R.id.BtnGetById);
+        BtnToMain = (Button)findViewById(R.id.BtnToMain);
         NationalitySpinner = (Spinner) findViewById(R.id.nationalitySpinner);
         GetAllRecyclerView = (RecyclerView) findViewById(R.id.getAllRecyclerView);
         GetAllRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+        BtnToCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.activity_create);
+            }
+        });
+
+        BtnToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setContentView(R.layout.activity_main);
+            }
+        });
 
         // Create an instance of MyDatabaseHelper and get the spinner options from the database
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
