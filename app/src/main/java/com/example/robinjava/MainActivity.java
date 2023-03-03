@@ -1,6 +1,8 @@
 package com.example.robinjava;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,12 +30,11 @@ public class MainActivity extends AppCompatActivity {
     Button BtnGetAll;
     Button BtnGetById;
     Spinner NationalitySpinner;
-
+    RecyclerView GetAllRecyclerView;
 
     private static final String TAG = "MainActivity";
     private Connection connection = DatabaseConnection.getConnection();
     // Connection
-
 
 
 
@@ -44,11 +45,15 @@ public class MainActivity extends AppCompatActivity {
         //String[] NationalityArray = {"Andalusien", "Belgien", "Congo", "Djibouti", "Equador", "Guyana"};  //Til test
 
         InputTxt = (EditText) findViewById(R.id.TxtInput);
+
         OutputTxt = (TextView) findViewById(R.id.TxtOutput);
         BtnToCreate = (Button) findViewById(R.id.BtnToCreate);
         BtnGetAll = (Button) findViewById(R.id.BtnGetAll);
         BtnGetById = (Button) findViewById(R.id.BtnGetById);
         NationalitySpinner = (Spinner) findViewById(R.id.nationalitySpinner);
+        GetAllRecyclerView = (RecyclerView) findViewById(R.id.getAllRecyclerView);
+        GetAllRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         // Create an instance of MyDatabaseHelper and get the spinner options from the database
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
