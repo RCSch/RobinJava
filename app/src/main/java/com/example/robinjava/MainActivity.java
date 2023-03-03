@@ -130,14 +130,19 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     String sql = "INSERT INTO Personer (Navn, Adresse, Nationalitet, Favourite, Tlf, Interesse1, Interesse2, Interesse3) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement statement = connection.prepareStatement(sql);
-                    statement.setString(1, "value1");
-                    statement.setString(2, "value2");
-                    statement.setString(3, "value3");
+                    statement.setString(1, nameInput.getText().toString());
+                    statement.setString(2, addressInput.getText().toString());
+                    String nationalitet = NationalitySpinner.getSelectedItem().toString();
+                    statement.setString(3, nationalitet);
+                    statement.setBoolean(4, favCheck.isChecked());
+                    statement.setString(5, tlfInput.getText().toString());
+                    statement.setString(6, interestInput1.getText().toString());
+                    statement.setString(7, interestInput2.getText().toString());
+                    statement.setString(8, interestInput3.getText().toString());
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
                         Log.d(TAG, "En ny person er oprettet!");
-                    }
-                    else {
+                    } else {
                         Log.d(TAG, "Ingen person oprettet!");
                     }
                 } catch (SQLException e) {
